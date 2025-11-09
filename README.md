@@ -1,8 +1,8 @@
-# 🏥 Gestor Interno de Pacientes (GINPAC-SOAP)
+# 🏥 Gestor Interno de Pacientes (SaludTotal-SOAP)
 
 ## 📘 Descripción General
 
-**GINPAC-SOAP** es un microproyecto desarrollado en **PHP** que implementa un **sistema interno (intranet)** para la **gestión de pacientes** en la *Clínica SaludTotal*.  
+**SaludTotal-SOAP** es un microproyecto desarrollado en **PHP** que implementa un **sistema interno (intranet)** para la **gestión de pacientes** en la *Clínica SaludTotal*.  
 El sistema está diseñado bajo la **arquitectura SOAP**, garantizando interoperabilidad, estructura formal de servicios y persistencia de datos en formato **XML**.  
 
 Este proyecto permitirá al personal autorizado (por ejemplo, la recepcionista o el archivista) **registrar, consultar, modificar y eliminar información de pacientes** mediante una interfaz web sencilla y funcional conectada a un **servicio web SOAP**.
