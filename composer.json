@@ -14,8 +14,11 @@
     },
     "autoload": {
         "psr-4": {
-            "GinpacSoap\\": "app/"
-        }
+            "App\\": "app/"
+        },
+        "files": [
+            "app/Helpers/RouteHelper.php"
+        ]
     },
     "scripts": {
         "serve": "php -S 127.0.0.1:8080 -t public/server",

@@ -1,176 +1,196 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions
-    name="PacientesService"
-    targetNamespace="http://saludtotal.local/pacientes"
-    xmlns:tns="http://saludtotal.local/pacientes"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+<definitions name="PacientesService"
+    targetNamespace="http://saludtotal.com/soap/pacientes"
+    xmlns:tns="http://saludtotal.com/soap/pacientes"
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.xmlsoap.org/wsdl/">
 
-    <wsdl:types>
-        <xsd:schema targetNamespace="http://saludtotal.local/pacientes"
-            elementFormDefault="qualified">
+    <!-- Tipos de Datos -->
+    <types>
+        <xsd:schema targetNamespace="http://saludtotal.com/soap/pacientes">
+            
+            <!-- Tipo Paciente -->
             <xsd:complexType name="Paciente">
                 <xsd:sequence>
-                    <xsd:string name="cedula" />
-                    <xsd:string name="nombres" />
-                    <xsd:string name="apellidos" />
-                    <xsd:string name="telefono" />
-                    <xsd:string name="fecha_nacimiento" />
+                    <xsd:element name="id" type="xsd:int" minOccurs="0"/>
+                    <xsd:element name="cedula" type="xsd:string"/>
+                    <xsd:element name="nombres" type="xsd:string"/>
+                    <xsd:element name="apellidos" type="xsd:string"/>
+                    <xsd:element name="telefono" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="fecha_nacimiento" type="xsd:string"/>
+                    <xsd:element name="direccion" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="email" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="genero" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="estado" type="xsd:string" minOccurs="0"/>
                 </xsd:sequence>
             </xsd:complexType>
 
-            <xsd:complexType name="PacientesArray">
+            <!-- Tipo Respuesta -->
+            <xsd:complexType name="Respuesta">
                 <xsd:sequence>
-                    <xsd:element name="paciente" type="tns:Paciente" minOccurs="0"
-                        maxOccurs="unbounded" />
+                    <xsd:element name="exito" type="xsd:boolean"/>
+                    <xsd:element name="mensaje" type="xsd:string"/>
+                    <xsd:element name="datos" type="xsd:anyType" minOccurs="0"/>
                 </xsd:sequence>
             </xsd:complexType>
 
-            <!-- RF-01 -->
-            <xsd:element name="RegistrarPacienteRequest" type="tns:Paciente" />
-            <xsd:element name="RegistrarPacienteResponse" type="xsd:boolean" />
+            <!-- Array de Pacientes -->
+            <xsd:complexType name="ArrayDePacientes">
+                <xsd:sequence>
+                    <xsd:element name="paciente" type="tns:Paciente" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
 
-            <!-- RF-02 -->
-            <xsd:element name="BuscarPacienteRequest">
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:string name="cedula" />
-                    </xsd:sequence>
-                </xsd:complexType>
-            </xsd:element>
-            <xsd:element name="BuscarPacienteResponse" type="tns:Paciente" />
-
-            <!-- RF-03 -->
-            <xsd:element name="ListarPacientesRequest" type="xsd:anyType" />
-            <xsd:element name="ListarPacientesResponse" type="tns:PacientesArray" />
-
-            <!-- RF-04 -->
-            <xsd:element name="ActualizarPacienteRequest" type="tns:Paciente" />
-            <xsd:element name="ActualizarPacienteResponse" type="xsd:boolean" />
-
-            <!-- RF-05 -->
-            <xsd:element name="EliminarPacienteRequest">
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:string name="cedula" />
-                    </xsd:sequence>
-                </xsd:complexType>
-            </xsd:element>
-            <xsd:element name="EliminarPacienteResponse" type="xsd:boolean" />
         </xsd:schema>
-    </wsdl:types>
+    </types>
 
-    <wsdl:message name="RegistrarPacienteRequest">
-        <wsdl:part name="parameters" element="tns:RegistrarPacienteRequest" />
-    </wsdl:message>
-    <wsdl:message name="RegistrarPacienteResponse">
-        <wsdl:part name="parameters" element="tns:RegistrarPacienteResponse" />
-    </wsdl:message>
+    <!-- Mensajes para crearPaciente -->
+    <message name="crearPacienteRequest">
+        <part name="datos" type="tns:Paciente"/>
+    </message>
+    <message name="crearPacienteResponse">
+        <part name="return" type="tns:Respuesta"/>
+    </message>
 
-    <wsdl:message name="BuscarPacienteRequest">
-        <wsdl:part name="parameters" element="tns:BuscarPacienteRequest" />
-    </wsdl:message>
-    <wsdl:message name="BuscarPacienteResponse">
-        <wsdl:part name="parameters" element="tns:BuscarPacienteResponse" />
-    </wsdl:message>
+    <!-- Mensajes para buscarPaciente -->
+    <message name="buscarPacienteRequest">
+        <part name="cedula" type="xsd:string"/>
+    </message>
+    <message name="buscarPacienteResponse">
+        <part name="return" type="tns:Respuesta"/>
+    </message>
 
-    <wsdl:message name="ListarPacientesRequest">
-        <wsdl:part name="parameters" element="tns:ListarPacientesRequest" />
-    </wsdl:message>
-    <wsdl:message name="ListarPacientesResponse">
-        <wsdl:part name="parameters" element="tns:ListarPacientesResponse" />
-    </wsdl:message>
+    <!-- Mensajes para listarPacientes -->
+    <message name="listarPacientesRequest">
+    </message>
+    <message name="listarPacientesResponse">
+        <part name="return" type="tns:Respuesta"/>
+    </message>
 
-    <wsdl:message name="ActualizarPacienteRequest">
-        <wsdl:part name="parameters" element="tns:ActualizarPacienteRequest" />
-    </wsdl:message>
-    <wsdl:message name="ActualizarPacienteResponse">
-        <wsdl:part name="parameters" element="tns:ActualizarPacienteResponse" />
-    </wsdl:message>
+    <!-- Mensajes para actualizarPaciente -->
+    <message name="actualizarPacienteRequest">
+        <part name="datos" type="tns:Paciente"/>
+    </message>
+    <message name="actualizarPacienteResponse">
+        <part name="return" type="tns:Respuesta"/>
+    </message>
 
-    <wsdl:message name="EliminarPacienteRequest">
-        <wsdl:part name="parameters" element="tns:EliminarPacienteRequest" />
-    </wsdl:message>
-    <wsdl:message name="EliminarPacienteResponse">
-        <wsdl:part name="parameters" element="tns:EliminarPacienteResponse" />
-    </wsdl:message>
+    <!-- Mensajes para eliminarPaciente -->
+    <message name="eliminarPacienteRequest">
+        <part name="cedula" type="xsd:string"/>
+    </message>
+    <message name="eliminarPacienteResponse">
+        <part name="return" type="tns:Respuesta"/>
+    </message>
 
-    <wsdl:portType name="PacientesPortType">
-        <wsdl:operation name="RegistrarPaciente">
-            <wsdl:input message="tns:RegistrarPacienteRequest" />
-            <wsdl:output message="tns:RegistrarPacienteResponse" />
-        </wsdl:operation>
-        <wsdl:operation name="BuscarPaciente">
-            <wsdl:input message="tns:BuscarPacienteRequest" />
-            <wsdl:output message="tns:BuscarPacienteResponse" />
-        </wsdl:operation>
-        <wsdl:operation name="ListarPacientes">
-            <wsdl:input message="tns:ListarPacientesRequest" />
-            <wsdl:output message="tns:ListarPacientesResponse" />
-        </wsdl:operation>
-        <wsdl:operation name="ActualizarPaciente">
-            <wsdl:input message="tns:ActualizarPacienteRequest" />
-            <wsdl:output message="tns:ActualizarPacienteResponse" />
-        </wsdl:operation>
-        <wsdl:operation name="EliminarPaciente">
-            <wsdl:input message="tns:EliminarPacienteRequest" />
-            <wsdl:output message="tns:EliminarPacienteResponse" />
-        </wsdl:operation>
-    </wsdl:portType>
+    <!-- Port Type -->
+    <portType name="PacientesPortType">
+        
+        <operation name="crearPaciente">
+            <documentation>RF-01: Crear un nuevo paciente</documentation>
+            <input message="tns:crearPacienteRequest"/>
+            <output message="tns:crearPacienteResponse"/>
+        </operation>
 
-    <wsdl:binding name="PacientesBinding" type="tns:PacientesPortType">
-        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
-        <wsdl:operation name="RegistrarPaciente">
-            <soap:operation soapAction="http://saludtotal.local/pacientes/RegistrarPaciente" />
-            <wsdl:input>
-                <soap:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-        <wsdl:operation name="BuscarPaciente">
-            <soap:operation soapAction="http://saludtotal.local/pacientes/BuscarPaciente" />
-            <wsdl:input>
-                <soap:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-        <wsdl:operation name="ListarPacientes">
-            <soap:operation soapAction="http://saludtotal.local/pacientes/ListarPacientes" />
-            <wsdl:input>
-                <soap:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-        <wsdl:operation name="ActualizarPaciente">
-            <soap:operation soapAction="http://saludtotal.local/pacientes/ActualizarPaciente" />
-            <wsdl:input>
-                <soap:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-        <wsdl:operation name="EliminarPaciente">
-            <soap:operation soapAction="http://saludtotal.local/pacientes/EliminarPaciente" />
-            <wsdl:input>
-                <soap:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-    </wsdl:binding>
+        <operation name="buscarPaciente">
+            <documentation>RF-02: Buscar paciente por cédula</documentation>
+            <input message="tns:buscarPacienteRequest"/>
+            <output message="tns:buscarPacienteResponse"/>
+        </operation>
 
-    <wsdl:service name="PacientesService">
-        <wsdl:port name="PacientesPort" binding="tns:PacientesBinding">
-            <soap:address location="http://127.0.0.1:8080/index.php" />
-        </wsdl:port>
-    </wsdl:service>
+        <operation name="listarPacientes">
+            <documentation>RF-03: Listar todos los pacientes</documentation>
+            <input message="tns:listarPacientesRequest"/>
+            <output message="tns:listarPacientesResponse"/>
+        </operation>
+
+        <operation name="actualizarPaciente">
+            <documentation>RF-04: Actualizar datos de un paciente</documentation>
+            <input message="tns:actualizarPacienteRequest"/>
+            <output message="tns:actualizarPacienteResponse"/>
+        </operation>
+
+        <operation name="eliminarPaciente">
+            <documentation>RF-05: Eliminar un paciente</documentation>
+            <input message="tns:eliminarPacienteRequest"/>
+            <output message="tns:eliminarPacienteResponse"/>
+        </operation>
+
+    </portType>
+
+    <!-- Binding -->
+    <binding name="PacientesBinding" type="tns:PacientesPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        
+        <operation name="crearPaciente">
+            <soap:operation soapAction="crearPaciente"/>
+            <input>
+                <soap:body use="encoded" namespace="http://saludtotal.com/soap/pacientes" 
+                          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="http://saludtotal.com/soap/pacientes" 
+                          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+
+        <operation name="buscarPaciente">
+            <soap:operation soapAction="buscarPaciente"/>
+            <input>
+                <soap:body use="encoded" namespace="http://saludtotal.com/soap/pacientes" 
+                          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="http://saludtotal.com/soap/pacientes" 
+                          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+
+        <operation name="listarPacientes">
+            <soap:operation soapAction="listarPacientes"/>
+            <input>
+                <soap:body use="encoded" namespace="http://saludtotal.com/soap/pacientes" 
+                          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="http://saludtotal.com/soap/pacientes" 
+                          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+
+        <operation name="actualizarPaciente">
+            <soap:operation soapAction="actualizarPaciente"/>
+            <input>
+                <soap:body use="encoded" namespace="http://saludtotal.com/soap/pacientes" 
+                          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="http://saludtotal.com/soap/pacientes" 
+                          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+
+        <operation name="eliminarPaciente">
+            <soap:operation soapAction="eliminarPaciente"/>
+            <input>
+                <soap:body use="encoded" namespace="http://saludtotal.com/soap/pacientes" 
+                          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="http://saludtotal.com/soap/pacientes" 
+                          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+
+    </binding>
+
+    <!-- Service -->
+    <service name="PacientesService">
+        <documentation>Servicio SOAP para gestión de pacientes - Clínica SaludTotal</documentation>
+        <port name="PacientesPort" binding="tns:PacientesBinding">
+            <soap:address location="http://localhost/public/server/index.php"/>
+        </port>
+    </service>
+
 </definitions>
