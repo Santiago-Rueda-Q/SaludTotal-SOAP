@@ -3,6 +3,10 @@ namespace App\Core;
 
 use App\Services\PatientService;
 use App\Exceptions\SoapExceptionHandler;
+use SoapClient;
+use SoapFault;
+use SoapVar;
+use stdClass;
 
 /**
  * Manejador del Servidor SOAP
@@ -12,34 +16,64 @@ class SoapServerHandler
 {
     private $patientService;
     
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->patientService = new PatientService();
     }
     
     /**
-     * Crear un nuevo paciente
-     * RF-01: Registrar Paciente
-     * 
-     * @param array $datos Datos del paciente
-     * @return array Respuesta con resultado de la operación
+     * Normalizar entrada - acepta cualquier formato
      */
-    public function crearPaciente($datos)
+    private function normalizeInput($input)
+    {
+        // Si es objeto, convertir a array
+        if (is_object($input)) {
+            $input = json_decode(json_encode($input), true);
+        }
+        
+        // Si no es array, envolver
+        if (!is_array($input)) {
+            return [];
+        }
+        
+        // Si tiene una clave 'datos' o 'data', extraerla
+        if (isset($input['datos'])) {
+            return $this->normalizeInput($input['datos']);
+        }
+        
+        if (isset($input['data'])) {
+            return $this->normalizeInput($input['data']);
+        }
+        
+        return $input;
+    }
+    
+    /**
+     * Extraer cédula de cualquier formato
+     */
+    private function extractCedula($input)
+    {
+        $normalized = $this->normalizeInput($input);
+        return $normalized['cedula'] ?? ($input->cedula ?? '');
+    }
+    
+    /**
+     * Crear un nuevo paciente
+     */
+    public function crearPaciente($params)
     {
         try {
+            $datosArray = $this->normalizeInput($params);
+            
             // Validar datos requeridos
             $required = ['cedula', 'nombres', 'apellidos', 'fecha_nacimiento'];
             foreach ($required as $field) {
-                if (empty($datos[$field])) {
+                if (empty($datosArray[$field])) {
                     throw new \Exception("El campo {$field} es requerido");
                 }
             }
             
-            // Crear paciente
-            $result = $this->patientService->create($datos);
+            $result = $this->patientService->create($datosArray);
             
             return [
                 'exito' => true,
@@ -58,14 +92,12 @@ class SoapServerHandler
     
     /**
      * Buscar paciente por cédula
-     * RF-02: Buscar Paciente por Cédula
-     * 
-     * @param string $cedula Cédula del paciente
-     * @return array Respuesta con datos del paciente
      */
-    public function buscarPaciente($cedula)
+    public function buscarPaciente($params)
     {
         try {
+            $cedula = $this->extractCedula($params);
+            
             if (empty($cedula)) {
                 throw new \Exception("La cédula es requerida");
             }
@@ -97,11 +129,8 @@ class SoapServerHandler
     
     /**
      * Listar todos los pacientes
-     * RF-03: Listar Todos los Pacientes
-     * 
-     * @return array Respuesta con lista de pacientes
      */
-    public function listarPacientes()
+    public function listarPacientes($params = null)
     {
         try {
             $pacientes = $this->patientService->getAll();
@@ -123,26 +152,22 @@ class SoapServerHandler
     
     /**
      * Actualizar datos de un paciente
-     * RF-04: Modificar Paciente
-     * 
-     * @param array $datos Datos actualizados del paciente (incluye cedula)
-     * @return array Respuesta con resultado de la operación
      */
-    public function actualizarPaciente($datos)
+    public function actualizarPaciente($params)
     {
         try {
-            if (empty($datos['cedula'])) {
+            $datosArray = $this->normalizeInput($params);
+            
+            if (empty($datosArray['cedula'])) {
                 throw new \Exception("La cédula es requerida para actualizar");
             }
             
-            // Verificar que el paciente existe
-            $paciente = $this->patientService->findByCedula($datos['cedula']);
+            $paciente = $this->patientService->findByCedula($datosArray['cedula']);
             if (!$paciente) {
                 throw new \Exception("Paciente no encontrado");
             }
             
-            // Actualizar paciente
-            $result = $this->patientService->update($datos['cedula'], $datos);
+            $result = $this->patientService->update($datosArray['cedula'], $datosArray);
             
             return [
                 'exito' => true,
@@ -161,25 +186,21 @@ class SoapServerHandler
     
     /**
      * Eliminar un paciente
-     * RF-05: Eliminar Paciente
-     * 
-     * @param string $cedula Cédula del paciente a eliminar
-     * @return array Respuesta con resultado de la operación
      */
-    public function eliminarPaciente($cedula)
+    public function eliminarPaciente($params)
     {
         try {
+            $cedula = $this->extractCedula($params);
+            
             if (empty($cedula)) {
                 throw new \Exception("La cédula es requerida");
             }
             
-            // Verificar que el paciente existe
             $paciente = $this->patientService->findByCedula($cedula);
             if (!$paciente) {
                 throw new \Exception("Paciente no encontrado");
             }
             
-            // Eliminar paciente
             $result = $this->patientService->delete($cedula);
             
             return [

@@ -35,9 +35,16 @@ if (!function_exists('base_url')) {
     }
 }
 
+if (!function_exists('soap_url')) {
+    function soap_url($endpoint) {
+        return \App\Helpers\RouteHelper::api($endpoint);
+    }
+}
+
+// Alias de compatibilidad
 if (!function_exists('api_url')) {
     function api_url($endpoint) {
-        return \App\Helpers\RouteHelper::api($endpoint);
+        return soap_url($endpoint);
     }
 }
 

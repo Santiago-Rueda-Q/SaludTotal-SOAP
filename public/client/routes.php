@@ -1,34 +1,36 @@
 <?php
 /**
- * Rutas del Cliente SOAP
- * Maneja las peticiones HTTP y las redirige al cliente SOAP
+ * Gateway SOAP (cliente) - expone endpoints internos para el frontend
  */
 
 require_once __DIR__ . '/Cliente.php';
 
-// Obtener el cliente SOAP
-$cliente = getCliente();
-
-// Responder siempre con JSON
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
 
 try {
-    // Obtener acción y método
-    $action = $_GET['action'] ?? $_POST['action'] ?? null;
+    // Obtener cliente SOAP
+    $cliente = getCliente();
+    
+    // Obtener accion de la URL
+    $requestUri = $_SERVER['REQUEST_URI'];
     $method = $_SERVER['REQUEST_METHOD'];
     
-    // Inicializar respuesta
-    $response = [
-        'exito' => false,
-        'mensaje' => 'Acción no válida',
-        'datos' => null
-    ];
+    // Parsear la ruta para obtener la accion (solo /soap/pacientes)
+    if (preg_match('#/soap/pacientes/(.+)#', $requestUri, $matches)) {
+        $action = $matches[1];
+    } elseif (preg_match('#/soap/pacientes#', $requestUri)) {
+        $action = 'listar';
+    } else {
+        $action = $_GET['action'] ?? $_POST['action'] ?? 'listar';
+    }
     
-    // Enrutar según la acción
+    $response = ['exito' => false, 'mensaje' => 'Accion no valida', 'datos' => null];
+    
+    error_log("SOAP Gateway Request - Action: $action, Method: $method");
+    
     switch ($action) {
-        
         case 'crear':
-            // RF-01: Crear paciente
             if ($method === 'POST') {
                 $datos = [
                     'cedula' => $_POST['cedula'] ?? '',
@@ -40,28 +42,21 @@ try {
                     'email' => $_POST['email'] ?? '',
                     'genero' => $_POST['genero'] ?? 'Otro'
                 ];
-                
                 $response = $cliente->crearPaciente($datos);
             }
             break;
             
         case 'buscar':
-            // RF-02: Buscar paciente
-            if ($method === 'GET' || $method === 'POST') {
-                $cedula = $_GET['cedula'] ?? $_POST['cedula'] ?? '';
-                $response = $cliente->buscarPaciente($cedula);
-            }
+            $cedula = $_GET['cedula'] ?? $_POST['cedula'] ?? '';
+            $response = $cliente->buscarPaciente($cedula);
             break;
             
         case 'listar':
-            // RF-03: Listar pacientes
-            if ($method === 'GET') {
-                $response = $cliente->listarPacientes();
-            }
+        case '':
+            $response = $cliente->listarPacientes();
             break;
             
         case 'actualizar':
-            // RF-04: Actualizar paciente
             if ($method === 'POST') {
                 $datos = [
                     'cedula' => $_POST['cedula'] ?? '',
@@ -73,49 +68,37 @@ try {
                     'email' => $_POST['email'] ?? '',
                     'genero' => $_POST['genero'] ?? 'Otro'
                 ];
-                
                 $response = $cliente->actualizarPaciente($datos);
             }
             break;
             
         case 'eliminar':
-            // RF-05: Eliminar paciente
-            if ($method === 'POST' || $method === 'DELETE') {
+            if ($method === 'POST') {
                 $cedula = $_POST['cedula'] ?? $_GET['cedula'] ?? '';
                 $response = $cliente->eliminarPaciente($cedula);
             }
             break;
             
-        case 'test':
-            // Prueba de conexión
-            $response = [
-                'exito' => true,
-                'mensaje' => 'Cliente SOAP funcionando correctamente',
-                'datos' => [
-                    'version' => '1.0',
-                    'timestamp' => date('Y-m-d H:i:s')
-                ]
-            ];
-            break;
-            
         default:
             $response = [
                 'exito' => false,
-                'mensaje' => "Acción '{$action}' no reconocida",
+                'mensaje' => "Accion '$action' no reconocida",
                 'datos' => null
             ];
             break;
     }
     
-    // Enviar respuesta
     echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     
 } catch (Exception $e) {
-    // Manejar errores
     http_response_code(500);
     echo json_encode([
         'exito' => false,
         'mensaje' => 'Error en el servidor: ' . $e->getMessage(),
-        'datos' => null
+        'datos' => null,
+        'debug' => [
+            'file' => $e->getFile(),
+            'line' => $e->getLine()
+        ]
     ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 }

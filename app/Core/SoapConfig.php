@@ -2,7 +2,7 @@
 namespace App\Core;
 
 /**
- * Clase de configuración para el servicio SOAP
+ * Clase de configuracion para el servicio SOAP
  */
 class SoapConfig
 {
@@ -25,15 +25,20 @@ class SoapConfig
     private function loadConfig()
     {
         $rootPath = dirname(dirname(__DIR__));
+
+        // Asegurar que las variables de entorno esten disponibles
+        $envFile = $rootPath . '/config/env.php';
+        if (!function_exists('env') && file_exists($envFile)) {
+            require_once $envFile;
+        }
         
-        // Cargar configuración de la aplicación
+        // Cargar configuracion de la aplicacion
         $appConfigFile = $rootPath . '/config/app.php';
         $soapConfigFile = $rootPath . '/config/soap.php';
         
         $appConfig = [];
         $soapConfig = [];
         
-        // Cargar app.php de forma segura
         if (file_exists($appConfigFile)) {
             $appConfig = require $appConfigFile;
             if (!is_array($appConfig)) {
@@ -41,7 +46,6 @@ class SoapConfig
             }
         }
         
-        // Cargar soap.php de forma segura
         if (file_exists($soapConfigFile)) {
             $soapConfig = require $soapConfigFile;
             if (!is_array($soapConfig)) {
@@ -49,7 +53,6 @@ class SoapConfig
             }
         }
         
-        // Merge con valores por defecto
         $this->config = array_merge([
             'name' => 'SaludTotal',
             'env' => 'production',
@@ -61,15 +64,23 @@ class SoapConfig
             'display_errors' => 0
         ], $appConfig);
         
-        // Agregar configuración SOAP
         $this->config['soap_config'] = $soapConfig;
         
-        // Configurar zona horaria
         if (isset($this->config['timezone'])) {
             date_default_timezone_set($this->config['timezone']);
         }
+
+        // Detectar base_path automaticamente si no esta definido
+        if (empty($this->config['base_path'])) {
+            $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+            $detectedBase = str_replace('\\', '/', dirname($scriptName));
+            $this->config['base_path'] = ($detectedBase === '/' || $detectedBase === '.') 
+                ? '' 
+                : rtrim($detectedBase, '/');
+        } else {
+            $this->config['base_path'] = rtrim($this->config['base_path'], '/');
+        }
         
-        // Configurar errores
         if (isset($this->config['error_reporting'])) {
             error_reporting($this->config['error_reporting']);
         }

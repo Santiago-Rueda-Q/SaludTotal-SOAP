@@ -3,20 +3,12 @@ namespace App\Core;
 
 use SoapClient;
 use SoapFault;
-use stdClass;
 
-/**
- * Manejador del Cliente SOAP
- * Consume el servicio web SOAP
- */
 class SoapClientHandler
 {
     private $client;
     private $config;
     
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->config = SoapConfig::getInstance();
@@ -30,165 +22,139 @@ class SoapClientHandler
     {
         try {
             $wsdlUrl = $this->config->getWsdlUrl();
-            $options = $this->config->getClientOptions();
+            $serverUrl = $this->config->getServerUrl();
+            
+            // Opciones del cliente
+            $options = [
+                'location' => $serverUrl,
+                'uri' => 'http://saludtotal.com/soap/pacientes',
+                'trace' => 1,
+                'exceptions' => true,
+                'encoding' => 'UTF-8',
+                'soap_version' => SOAP_1_2,
+                'cache_wsdl' => WSDL_CACHE_NONE,
+                'connection_timeout' => 30,
+                'features' => SOAP_SINGLE_ELEMENT_ARRAYS
+            ];
+            
+            // Log para debug
+            error_log("SOAP Client - WSDL: $wsdlUrl");
+            error_log("SOAP Client - Location: $serverUrl");
+            
+            // Verificar que el WSDL existe
+            if (!file_exists(str_replace('http://saludtotal-soap.test', $_SERVER['DOCUMENT_ROOT'] . '/..', $wsdlUrl))) {
+                throw new \Exception("WSDL no encontrado: $wsdlUrl");
+            }
             
             $this->client = new SoapClient($wsdlUrl, $options);
             
-        } catch (SoapFault $e) {
+            error_log("SOAP Client inicializado correctamente");
+            
+        } catch (\Exception $e) {
+            error_log("Error SOAP Client: " . $e->getMessage());
             throw new \Exception("Error al conectar con el servicio SOAP: " . $e->getMessage());
         }
     }
     
     /**
      * Crear paciente
-     * Consume RF-01
      */
     public function crearPaciente($datos)
     {
         try {
-            // Convertir el array a objeto stdClass
-            $paciente = new stdClass();
-            $paciente->cedula = $datos['cedula'] ?? '';
-            $paciente->nombres = $datos['nombres'] ?? '';
-            $paciente->apellidos = $datos['apellidos'] ?? '';
-            $paciente->telefono = $datos['telefono'] ?? '';
-            $paciente->fecha_nacimiento = $datos['fecha_nacimiento'] ?? '';
-            $paciente->direccion = $datos['direccion'] ?? '';
-            $paciente->email = $datos['email'] ?? '';
-            $paciente->genero = $datos['genero'] ?? 'Otro';
+            $response = $this->client->__soapCall('crearPaciente', [
+                ['datos' => $datos]
+            ]);
             
-            // Enviar como parámetro con nombre 'datos'
-            $params = ['datos' => $paciente];
-            
-            $response = $this->client->__soapCall('crearPaciente', [$params]);
-            return $this->processResponse($response);
+            return $this->parseResponse($response);
             
         } catch (SoapFault $e) {
-            return [
-                'exito' => false,
-                'mensaje' => 'Error SOAP: ' . $e->getMessage(),
-                'datos' => null
-            ];
+            return $this->handleSoapError($e);
         }
     }
     
     /**
      * Buscar paciente por cédula
-     * Consume RF-02
      */
     public function buscarPaciente($cedula)
     {
         try {
-            // Crear parámetro como objeto
-            $params = new stdClass();
-            $params->cedula = $cedula;
+            $response = $this->client->__soapCall('buscarPaciente', [
+                ['cedula' => $cedula]
+            ]);
             
-            $response = $this->client->__soapCall('buscarPaciente', [$params]);
-            return $this->processResponse($response);
+            return $this->parseResponse($response);
             
         } catch (SoapFault $e) {
-            return [
-                'exito' => false,
-                'mensaje' => 'Error SOAP: ' . $e->getMessage(),
-                'datos' => null
-            ];
+            return $this->handleSoapError($e);
         }
     }
     
     /**
-     * Listar todos los pacientes
-     * Consume RF-03
+     * Listar pacientes
      */
     public function listarPacientes()
     {
         try {
             $response = $this->client->__soapCall('listarPacientes', []);
-            return $this->processResponse($response);
+            
+            return $this->parseResponse($response);
             
         } catch (SoapFault $e) {
-            return [
-                'exito' => false,
-                'mensaje' => 'Error SOAP: ' . $e->getMessage(),
-                'datos' => []
-            ];
+            return $this->handleSoapError($e);
         }
     }
     
     /**
      * Actualizar paciente
-     * Consume RF-04
      */
     public function actualizarPaciente($datos)
     {
         try {
-            // Convertir el array a objeto stdClass
-            $paciente = new stdClass();
-            $paciente->cedula = $datos['cedula'] ?? '';
-            $paciente->nombres = $datos['nombres'] ?? '';
-            $paciente->apellidos = $datos['apellidos'] ?? '';
-            $paciente->telefono = $datos['telefono'] ?? '';
-            $paciente->fecha_nacimiento = $datos['fecha_nacimiento'] ?? '';
-            $paciente->direccion = $datos['direccion'] ?? '';
-            $paciente->email = $datos['email'] ?? '';
-            $paciente->genero = $datos['genero'] ?? 'Otro';
+            $response = $this->client->__soapCall('actualizarPaciente', [
+                ['datos' => $datos]
+            ]);
             
-            // Enviar como parámetro con nombre 'datos'
-            $params = ['datos' => $paciente];
-            
-            $response = $this->client->__soapCall('actualizarPaciente', [$params]);
-            return $this->processResponse($response);
+            return $this->parseResponse($response);
             
         } catch (SoapFault $e) {
-            return [
-                'exito' => false,
-                'mensaje' => 'Error SOAP: ' . $e->getMessage(),
-                'datos' => null
-            ];
+            return $this->handleSoapError($e);
         }
     }
     
     /**
      * Eliminar paciente
-     * Consume RF-05
      */
     public function eliminarPaciente($cedula)
     {
         try {
-            // Crear parámetro como objeto
-            $params = new stdClass();
-            $params->cedula = $cedula;
+            $response = $this->client->__soapCall('eliminarPaciente', [
+                ['cedula' => $cedula]
+            ]);
             
-            $response = $this->client->__soapCall('eliminarPaciente', [$params]);
-            return $this->processResponse($response);
+            return $this->parseResponse($response);
             
         } catch (SoapFault $e) {
-            return [
-                'exito' => false,
-                'mensaje' => 'Error SOAP: ' . $e->getMessage(),
-                'datos' => null
-            ];
+            return $this->handleSoapError($e);
         }
     }
     
     /**
-     * Procesar respuesta del servidor
+     * Parsear respuesta SOAP
      */
-    private function processResponse($response)
+    private function parseResponse($response)
     {
-        // Manejar diferentes estructuras de respuesta
+        // Si ya es un array asociativo, retornarlo
+        if (is_array($response)) {
+            return $response;
+        }
+        
+        // Si es un objeto stdClass, convertirlo a array
         if (is_object($response)) {
             return [
                 'exito' => $response->exito ?? false,
-                'mensaje' => $response->mensaje ?? 'Sin mensaje',
+                'mensaje' => $response->mensaje ?? '',
                 'datos' => $response->datos ?? null
-            ];
-        }
-        
-        if (is_array($response)) {
-            return [
-                'exito' => $response['exito'] ?? false,
-                'mensaje' => $response['mensaje'] ?? 'Sin mensaje',
-                'datos' => $response['datos'] ?? null
             ];
         }
         
@@ -200,61 +166,25 @@ class SoapClientHandler
     }
     
     /**
-     * Obtener funciones disponibles en el WSDL
+     * Manejar errores SOAP
      */
-    public function getFunctions()
+    private function handleSoapError(SoapFault $e)
     {
-        try {
-            return $this->client->__getFunctions();
-        } catch (SoapFault $e) {
-            return [];
+        error_log("SOAP Fault: " . $e->getMessage());
+        error_log("SOAP Fault Code: " . $e->faultcode);
+        error_log("SOAP Fault String: " . $e->faultstring);
+        
+        if ($this->client) {
+            error_log("Last Request Headers:\n" . $this->client->__getLastRequestHeaders());
+            error_log("Last Request:\n" . $this->client->__getLastRequest());
+            error_log("Last Response Headers:\n" . $this->client->__getLastResponseHeaders());
+            error_log("Last Response:\n" . $this->client->__getLastResponse());
         }
-    }
-    
-    /**
-     * Obtener tipos disponibles en el WSDL
-     */
-    public function getTypes()
-    {
-        try {
-            return $this->client->__getTypes();
-        } catch (SoapFault $e) {
-            return [];
-        }
-    }
-    
-    /**
-     * Obtener última petición (para debugging)
-     */
-    public function getLastRequest()
-    {
-        try {
-            return $this->client->__getLastRequest();
-        } catch (SoapFault $e) {
-            return null;
-        }
-    }
-    
-    /**
-     * Obtener última respuesta (para debugging)
-     */
-    public function getLastResponse()
-    {
-        try {
-            return $this->client->__getLastResponse();
-        } catch (SoapFault $e) {
-            return null;
-        }
-    }
-    
-    /**
-     * Debug: Imprimir última petición y respuesta
-     */
-    public function debugLastCall()
-    {
+        
         return [
-            'request' => $this->getLastRequest(),
-            'response' => $this->getLastResponse()
+            'exito' => false,
+            'mensaje' => 'Error SOAP: ' . $e->getMessage(),
+            'datos' => null
         ];
     }
 }

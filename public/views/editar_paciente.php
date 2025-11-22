@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 // Cargar información del paciente
 async function cargarPaciente(cedula) {
     try {
-        const response = await fetchAPI('buscar', { cedula: cedula });
+        const response = await fetchSOAP('buscar', { cedula: cedula });
         
         if (response.exito && response.datos) {
             pacienteActual = response.datos;
@@ -397,7 +397,7 @@ async function eliminarPaciente(cedula) {
     const loading = showLoadingModal('Eliminando paciente...');
     
     try {
-        const response = await fetchAPI('eliminar', { cedula: cedula }, 'POST');
+        const response = await fetchSOAP('eliminar', { cedula: cedula }, 'POST');
         
         hideLoadingModal();
         
@@ -448,7 +448,7 @@ async function handleSubmit(event) {
     const loading = showLoadingModal('Actualizando paciente...');
     
     try {
-        const response = await fetchAPI('actualizar', datos, 'POST');
+        const response = await fetchSOAP('actualizar', datos, 'POST');
         
         hideLoadingModal();
         

@@ -8,11 +8,11 @@
     <title><?php echo $pageTitle ?? 'SaludTotal'; ?> - Sistema de Gestión de Pacientes</title>
     
     <!-- CSS -->
-    <link rel="stylesheet" href="/public/assets/css/style.css">
-    <link rel="stylesheet" href="/public/assets/css/theme.css">
+    <link rel="stylesheet" href="<?php echo asset('css/style.css'); ?>">
+    <link rel="stylesheet" href="<?php echo asset('css/theme.css'); ?>">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/public/assets/img/logo_saludtotal.png">
+    <link rel="icon" type="image/png" href="<?php echo asset('img/logo_saludtotal.png'); ?>">
     
     <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -25,17 +25,17 @@
                 <strong>SaludTotal</strong> - Sistema de Gestión de Pacientes
             </p>
             <p style="margin: 5px 0; font-size: 14px; opacity: 0.9;">
-                &copy; <?php echo date('Y'); ?> Clínica SaludTotal. Todos los derechos reservados.
+                &copy; <?php echo date('Y'); ?> Clínica SaludTotal. Santiago Rueda Quintero.
             </p>
             <p style="margin: 5px 0; font-size: 12px; opacity: 0.8;">
-                Desarrollado con tecnología SOAP | Versión 1.0
+                Desarrollado con tecnología SOAP
             </p>
         </div>
     </footer>
 
     <!-- JavaScript -->
-    <script src="<?php echo asset('js/main.js'); ?>"></script>
     <script src="<?php echo asset('js/alerts.js'); ?>"></script>
+    <script src="<?php echo asset('js/main.js'); ?>"></script>
     
     <!-- Scripts adicionales por página -->
     <?php if (isset($pageScripts)): ?>

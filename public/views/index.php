@@ -147,7 +147,7 @@ include_once __DIR__ . '/partials/navbar.php';
 // Cargar estadísticas al inicio
 async function loadStatistics() {
     try {
-        const response = await fetchAPI('listar');
+        const response = await fetchSOAP('listar');
         
         if (response.exito) {
             const pacientes = response.datos || [];
@@ -187,7 +187,7 @@ async function buscarPaciente() {
     const loading = showLoadingModal('Buscando paciente...');
     
     try {
-        const response = await fetchAPI('buscar', { cedula: cedula });
+        const response = await fetchSOAP('buscar', { cedula: cedula });
         
         hideLoadingModal();
         

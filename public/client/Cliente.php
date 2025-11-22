@@ -4,8 +4,8 @@
  * Consumidor del servicio web SOAP
  */
 
-// Autoload de Composer
-require_once __DIR__ . '/../../vendor/autoload.php';
+// Bootstrap para cargar entorno, autoload y helpers
+require_once __DIR__ . '/../../config/bootstrap.php';
 
 use App\Core\SoapClientHandler;
 use App\Exceptions\SoapExceptionHandler;

@@ -1,30 +1,31 @@
-<?php
-// Cargar helper de rutas si no está cargado
-if (!function_exists('route')) {
-    require_once dirname(dirname(dirname(__DIR__))) . '/vendor/autoload.php';
-}
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sistema de Gestión de Pacientes - Clínica SaludTotal">
-    <meta name="author" content="SaludTotal">
-    <title><?php echo $pageTitle ?? 'SaludTotal'; ?> - Sistema de Gestión de Pacientes</title>
+    <title><?php echo $pageTitle ?? 'SaludTotal - Sistema de Gestión de Pacientes'; ?></title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="<?php echo asset('img/logo_saludtotal.png'); ?>" type="image/png">
     
     <!-- CSS -->
     <link rel="stylesheet" href="<?php echo asset('css/style.css'); ?>">
     <link rel="stylesheet" href="<?php echo asset('css/theme.css'); ?>">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="<?php echo asset('img/logo_saludtotal.png'); ?>">
-    
-    <!-- Font Awesome para iconos -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <?php
+        $config = \App\Core\SoapConfig::getInstance();
+        $basePath = rtrim($config->get('base_path', ''), '/');
+    ?>
+    <script>
+        window.APP_BASE_PATH = '<?php echo $basePath; ?>';
+        window.SOAP_BASE_URL = '<?php echo $basePath; ?>/soap/pacientes';
+    </script>
 </head>
 <body>
-    <!-- Header -->
+    <div class="wrapper">
     <header>
         <div class="container">
             <div class="logo-container">

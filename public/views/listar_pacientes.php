@@ -119,7 +119,7 @@ async function cargarPacientes() {
     table.style.display = 'none';
     
     try {
-        const response = await fetchAPI('listar');
+        const response = await fetchSOAP('listar');
         
         if (response.exito) {
             pacientesData = response.datos || [];
@@ -223,7 +223,7 @@ function filtrarTabla() {
 
 // Editar paciente - RF-09
 function editarPaciente(cedula) {
-    window.location.href = `/pacientes/editar?cedula=${cedula}`;
+    SaludTotal.navigateTo('pacientes.editar', { cedula });
 }
 
 // Confirmar eliminación - RF-10
@@ -240,7 +240,7 @@ async function eliminarPaciente(cedula) {
     const loading = showLoadingModal('Eliminando paciente...');
     
     try {
-        const response = await fetchAPI('eliminar', { cedula: cedula }, 'POST');
+        const response = await fetchSOAP('eliminar', { cedula: cedula }, 'POST');
         
         hideLoadingModal();
         
@@ -276,3 +276,4 @@ document.getElementById('search-input').addEventListener('keyup', debouncedFilte
 </script>
 
 <?php include_once __DIR__ . '/partials/footer.php'; ?>
+

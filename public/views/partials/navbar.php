@@ -9,11 +9,11 @@
     <title><?php echo $pageTitle ?? 'SaludTotal'; ?> - Sistema de Gestión de Pacientes</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/public/assets/css/style.css">
-    <link rel="stylesheet" href="/public/assets/css/theme.css">
+    <link rel="stylesheet" href="<?php echo asset('css/style.css'); ?>">
+    <link rel="stylesheet" href="<?php echo asset('css/theme.css'); ?>">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/public/assets/img/logo_saludtotal.png">
+    <link rel="icon" type="image/png" href="<?php echo asset('img/logo_saludtotal.png'); ?>">
 
     <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

@@ -301,7 +301,7 @@ async function handleSubmit(event) {
     
     try {
         // Enviar datos al servidor
-        const response = await fetchAPI('crear', datos, 'POST');
+        const response = await fetchSOAP('crear', datos, 'POST');
         
         hideLoadingModal();
         

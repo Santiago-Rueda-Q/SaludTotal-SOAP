@@ -45,12 +45,12 @@ class Router
         $this->addRoute('GET', '/pacientes/crear', 'views/crear_paciente.php', 'pacientes.crear');
         $this->addRoute('GET', '/pacientes/editar', 'views/editar_paciente.php', 'pacientes.editar');
         
-        // Rutas API
-        $this->addRoute('GET', '/api/pacientes', 'client/routes.php?action=listar', 'api.pacientes.listar');
-        $this->addRoute('GET', '/api/pacientes/buscar', 'client/routes.php?action=buscar', 'api.pacientes.buscar');
-        $this->addRoute('POST', '/api/pacientes/crear', 'client/routes.php?action=crear', 'api.pacientes.crear');
-        $this->addRoute('POST', '/api/pacientes/actualizar', 'client/routes.php?action=actualizar', 'api.pacientes.actualizar');
-        $this->addRoute('POST', '/api/pacientes/eliminar', 'client/routes.php?action=eliminar', 'api.pacientes.eliminar');
+        // Rutas SOAP (gateway cliente)
+        $this->addRoute('GET', '/soap/pacientes', 'client/routes.php?action=listar', 'soap.pacientes.listar');
+        $this->addRoute('GET', '/soap/pacientes/buscar', 'client/routes.php?action=buscar', 'soap.pacientes.buscar');
+        $this->addRoute('POST', '/soap/pacientes/crear', 'client/routes.php?action=crear', 'soap.pacientes.crear');
+        $this->addRoute('POST', '/soap/pacientes/actualizar', 'client/routes.php?action=actualizar', 'soap.pacientes.actualizar');
+        $this->addRoute('POST', '/soap/pacientes/eliminar', 'client/routes.php?action=eliminar', 'soap.pacientes.eliminar');
         
         // Ruta del servidor SOAP
         $this->addRoute('POST', '/soap/server', 'server/index.php', 'soap.server');

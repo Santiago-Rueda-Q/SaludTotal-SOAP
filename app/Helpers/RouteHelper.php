@@ -45,6 +45,6 @@ class RouteHelper
     
     public static function api($endpoint)
     {
-        return self::baseUrl('api/' . ltrim($endpoint, '/'));
+        return self::baseUrl('soap/' . ltrim($endpoint, '/'));
     }
 }
