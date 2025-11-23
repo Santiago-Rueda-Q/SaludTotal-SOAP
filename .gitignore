@@ -1,9 +1,0 @@
-/vendor/
-/storage/logs/
-/storage/*.log
-/.idea/
-/.vscode/
-/node_modules/
-/composer.lock
-.DS_Store
-Thumbs.db
