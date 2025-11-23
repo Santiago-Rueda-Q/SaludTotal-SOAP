@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pacientes>
+<paciente><cedula>1029929292</cedula><nombres>Santiago</nombres><apellidos>Rueda Quintero</apellidos><telefono>3125108134</telefono><fecha_nacimiento>2025-11-11</fecha_nacimiento></paciente><paciente><cedula>12312312312</cedula><nombres>yutitzi</nombres><apellidos>sanchez caile</apellidos><telefono>3125108134</telefono><fecha_nacimiento>2025-11-11</fecha_nacimiento></paciente><paciente><cedula>2123123123123</cedula><nombres>Santiago</nombres><apellidos>Rueda Quintero</apellidos><telefono>3125108134</telefono><fecha_nacimiento>2025-11-12</fecha_nacimiento></paciente></pacientes>
