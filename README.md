@@ -60,9 +60,7 @@ public/wsdl/pacientes.wsdl
 
 ### Diagrama de contexto del sistema (UML)
 
-```md
 ![Diagrama de contexto del sistema](docs/img/uml-contexto-sistema.png)
-```
 
 ---
 
@@ -97,10 +95,8 @@ El diseño implementa una arquitectura de **doble capa** donde:
 
 ### Diagrama de arquitectura de componentes (UML)
 
-```md
 ![Diagrama de arquitectura de componentes](docs/img/uml-arquitectura-componentes-1.png)
 ![Diagrama de arquitectura de componentes](docs/img/uml-arquitectura-componentes-2.png)
-```
 
 La arquitectura se organiza en **5 capas** con responsabilidades claras:
 
@@ -116,9 +112,7 @@ La arquitectura se organiza en **5 capas** con responsabilidades claras:
 
 ### Diagrama de responsabilidad de capas (UML)
 
-```md
 ![Diagrama de responsabilidad de capas](docs/img/uml-capas-responsabilidades.png)
-```
 
 ### Descripción de capas
 
@@ -208,9 +202,7 @@ El sistema soporta **dos flujos principales**:
 
 ### Diagrama de flujo de solicitud dual (UML)
 
-```md
 ![Diagrama de flujo de solicitud dual](docs/img/uml-flujo-solicitudes.png)
-```
 
 ---
 
@@ -269,9 +261,7 @@ Pasos generales:
 
 ### Diagrama de despliegue (UML)
 
-```md
 ![Diagrama de despliegue](docs/img/uml-despliegue-saludtotal.png)
-```
 
 ---
 
