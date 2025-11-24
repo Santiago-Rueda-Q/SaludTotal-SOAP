@@ -2,7 +2,7 @@
 <pacientes>
     <paciente>
         <cedula>1029929292</cedula>
-        <nombres>Santiago</nombres>
+        <nombres>Santiago1212</nombres>
         <apellidos>Rueda Quintero</apellidos>
         <telefono>3125108134</telefono>
         <fecha_nacimiento>2025-11-11</fecha_nacimiento>
@@ -14,7 +14,7 @@
         <telefono>3125108134</telefono>
         <fecha_nacimiento>2025-11-11</fecha_nacimiento>
     </paciente>
-    
+
     <paciente>
         <cedula>212312312</cedula>
         <nombres>Erick</nombres>
@@ -71,4 +71,11 @@
         <telefono>+573214613561</telefono>
         <fecha_nacimiento>2025-11-22</fecha_nacimiento>
     </paciente>
-<paciente><cedula>48484845454</cedula><nombres>Erick</nombres><apellidos>Carvajal</apellidos><telefono>3125108134</telefono><fecha_nacimiento>2025-11-20</fecha_nacimiento></paciente></pacientes>
+    <paciente>
+        <cedula>1029912129292</cedula>
+        <nombres>Santiago1212</nombres>
+        <apellidos>Rueda Quintero</apellidos>
+        <telefono>3125108134</telefono>
+        <fecha_nacimiento>2025-11-11</fecha_nacimiento>
+    </paciente>
+</pacientes>
