@@ -1,33 +1,47 @@
 # SaludTotal-SOAP 🩺
 
 Sistema de gestión de pacientes para la **Clínica SaludTotal**, basado en una arquitectura de **servicios web SOAP**.  
+
 Incluye:
+- ✅ Operaciones CRUD completas sobre pacientes  
+- ✅ Servidor SOAP con contrato WSDL público  
+- ✅ Cliente web interno para uso del personal de la clínica  
+- ✅ Persistencia de datos en archivo XML  
 
-- Operaciones CRUD completas sobre pacientes.
-- Servidor SOAP con contrato WSDL público.
-- Cliente web interno para uso del personal de la clínica.
-- Persistencia de datos en archivo XML.
+---
 
-> Proyecto académico / prototipo técnico orientado a demostrar una arquitectura SOAP bien estructurada.
+<div align="center">
+  <h2>👨‍💻 Creador</h2>
+  <table>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/Santiago-Rueda-Q">
+          <img src="https://github.com/Santiago-Rueda-Q.png" width="100px;" alt="Santiago Rueda Quintero"/><br />
+          <sub><b>Santiago Rueda Quintero</b></sub>
+        </a><br />
+      </td>
+    </tr>
+  </table>
+</div>
 
 ---
 
 ## 📚 Tabla de contenido
 
-1. [Propósito y alcance](#-propósito-y-alcance)
-2. [Contexto del sistema](#-contexto-del-sistema)
-3. [Pila tecnológica](#-pila-tecnológica)
-4. [Arquitectura de alto nivel](#-arquitectura-de-alto-nivel)
-5. [Capas del sistema](#-capas-del-sistema)
-6. [Componentes principales](#-componentes-principales)
-7. [Flujo de solicitudes](#-flujo-de-solicitudes)
-8. [Modelo de datos del paciente](#-modelo-de-datos-del-paciente)
-9. [Cobertura de requisitos funcionales](#-cobertura-de-requisitos-funcionales)
-10. [Arquitectura de despliegue](#-arquitectura-de-despliegue)
-11. [Limitaciones actuales](#-limitaciones-actuales)
-12. [Instalación rápida](#-instalación-rápida)
-13. [Ejemplos de consumo SOAP](#-ejemplos-de-consumo-soap)
-14. [Documentación relacionada](#-documentación-relacionada)
+1. [Propósito y alcance](#-propósito-y-alcance)  
+2. [Contexto del sistema](#-contexto-del-sistema)  
+3. [Pila tecnológica](#-pila-tecnológica)  
+4. [Arquitectura de alto nivel](#-arquitectura-de-alto-nivel)  
+5. [Capas del sistema](#-capas-del-sistema)  
+6. [Componentes principales](#-componentes-principales)  
+7. [Flujo de solicitudes](#-flujo-de-solicitudes)  
+8. [Modelo de datos del paciente](#-modelo-de-datos-del-paciente)  
+9. [Cobertura de requisitos funcionales](#-cobertura-de-requisitos-funcionales)  
+10. [Arquitectura de despliegue](#-arquitectura-de-despliegue)  
+11. [Limitaciones actuales](#-limitaciones-actuales)  
+12. [Instalación rápida](#-instalación-rápida)  
+13. [Ejemplos de consumo SOAP](#-ejemplos-de-consumo-soap)  
+14. [Documentación relacionada](#-documentación-relacionada)  
 
 ---
 
@@ -345,5 +359,3 @@ Incluye snippets para:
 
 * **Contrato WSDL**
   `public/wsdl/pacientes.wsdl`
-
-```
