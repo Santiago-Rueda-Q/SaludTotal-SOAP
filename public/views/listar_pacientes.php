@@ -42,8 +42,26 @@
             </a>
         </div>
     <?php else: ?>
+
+        <!-- Barra de búsqueda + info -->
+        <div class="table-actions">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input
+                    type="text"
+                    id="search-cedula"
+                    placeholder="Buscar por cédula en tiempo real..."
+                    autocomplete="off">
+            </div>
+            <div class="table-info">
+                <span id="results-count">
+                    Mostrando <?php echo count($pacientes); ?> de <?php echo count($pacientes); ?> pacientes
+                </span>
+            </div>
+        </div>
+
         <div class="table-container">
-            <table class="table">
+            <table class="table" id="patients-table">
                 <thead>
                     <tr>
                         <th><i class="fas fa-id-card"></i> Cédula</th>
@@ -57,7 +75,11 @@
                 <tbody>
                     <?php foreach ($pacientes as $paciente): ?>
                         <tr>
-                            <td><span class="badge badge-primary"><?php echo htmlspecialchars($paciente['cedula']); ?></span></td>
+                            <td>
+                                <span class="badge badge-primary">
+                                    <?php echo htmlspecialchars($paciente['cedula']); ?>
+                                </span>
+                            </td>
                             <td style="font-weight: 600;"><?php echo htmlspecialchars($paciente['nombres']); ?></td>
                             <td style="font-weight: 600;"><?php echo htmlspecialchars($paciente['apellidos']); ?></td>
                             <td><?php echo htmlspecialchars($paciente['telefono']); ?></td>
@@ -83,13 +105,161 @@
             </table>
         </div>
 
-        <div style="margin-top: 24px; text-align: center; color: var(--text-secondary);">
+        <!-- Paginación -->
+        <div id="pagination" class="pagination"></div>
+
+        <div style="margin-top: 16px; text-align: center; color: var(--text-secondary); font-size: 14px;">
             <p>
                 <i class="fas fa-info-circle"></i>
-                Total de pacientes: <strong><?php echo count($pacientes); ?></strong>
+                Total de pacientes en el sistema: <strong><?php echo count($pacientes); ?></strong>
             </p>
         </div>
     <?php endif; ?>
 </div>
+
+<!-- JS ESPECÍFICO DE ESTA VISTA: BUSCADOR + PAGINACIÓN -->
+<script>
+(function() {
+    const table = document.getElementById('patients-table');
+    const searchInput = document.getElementById('search-cedula');
+    const paginationContainer = document.getElementById('pagination');
+    const resultsCount = document.getElementById('results-count');
+
+    if (!table || !searchInput || !paginationContainer || !resultsCount) {
+        return;
+    }
+
+    const allRows = Array.from(table.querySelectorAll('tbody tr'));
+    const rowsPerPage = 10;
+    let filteredRows = [...allRows];
+    let currentPage = 1;
+
+    // Guardar la cédula en data-attribute
+    allRows.forEach(row => {
+        const cedulaBadge = row.querySelector('.badge');
+        if (cedulaBadge) {
+            row.dataset.cedula = cedulaBadge.textContent.trim().toLowerCase();
+        }
+    });
+
+    function renderRows() {
+        allRows.forEach(row => row.style.display = 'none');
+
+        const total = filteredRows.length;
+        const totalPages = Math.max(1, Math.ceil(total / rowsPerPage));
+        if (currentPage > totalPages) currentPage = totalPages;
+
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+
+        filteredRows.forEach((row, index) => {
+            if (index >= start && index < end) {
+                row.style.display = '';
+            }
+        });
+    }
+
+    function renderPagination() {
+        const total = filteredRows.length;
+        const totalPages = Math.max(1, Math.ceil(total / rowsPerPage));
+
+        paginationContainer.innerHTML = '';
+        if (totalPages <= 1) return;
+
+        const createButton = (label, page, disabled = false, active = false) => {
+            const btn = document.createElement('button');
+            btn.className = 'page-btn';
+            btn.textContent = label;
+
+            if (active) btn.classList.add('active');
+            if (disabled) {
+                btn.disabled = true;
+                btn.classList.add('disabled');
+            } else {
+                btn.addEventListener('click', () => {
+                    currentPage = page;
+                    renderRows();
+                    renderPagination();
+                    table.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            }
+            return btn;
+        };
+
+        // « anterior
+        paginationContainer.appendChild(
+            createButton('«', currentPage - 1, currentPage === 1)
+        );
+
+        const totalPagesToShow = 5;
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, startPage + totalPagesToShow - 1);
+
+        if (endPage - startPage < totalPagesToShow - 1) {
+            startPage = Math.max(1, endPage - totalPagesToShow + 1);
+        }
+
+        if (startPage > 1) {
+            paginationContainer.appendChild(createButton('1', 1, false, currentPage === 1));
+            if (startPage > 2) {
+                const dots = document.createElement('span');
+                dots.className = 'page-dots';
+                dots.textContent = '…';
+                paginationContainer.appendChild(dots);
+            }
+        }
+
+        for (let page = startPage; page <= endPage; page++) {
+            paginationContainer.appendChild(
+                createButton(String(page), page, false, page === currentPage)
+            );
+        }
+
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                const dots = document.createElement('span');
+                dots.className = 'page-dots';
+                dots.textContent = '…';
+                paginationContainer.appendChild(dots);
+            }
+            paginationContainer.appendChild(
+                createButton(String(totalPages), totalPages, false, currentPage === totalPages)
+            );
+        }
+
+        // » siguiente
+        paginationContainer.appendChild(
+            createButton('»', currentPage + 1, currentPage === totalPages)
+        );
+    }
+
+    function updateResultsCount() {
+        const total = allRows.length;
+        const filtered = filteredRows.length;
+        resultsCount.textContent = `Mostrando ${filtered} de ${total} pacientes`;
+    }
+
+    function applyFilter() {
+        const term = searchInput.value.trim().toLowerCase();
+        if (!term) {
+            filteredRows = [...allRows];
+        } else {
+            filteredRows = allRows.filter(row =>
+                (row.dataset.cedula || '').includes(term)
+            );
+        }
+        currentPage = 1;
+        renderRows();
+        renderPagination();
+        updateResultsCount();
+    }
+
+    // Eventos
+    searchInput.addEventListener('input', applyFilter);
+
+    // Render inicial
+    applyFilter();
+})();
+</script>
 
 <?php require __DIR__ . '/partials/footer.php'; ?>

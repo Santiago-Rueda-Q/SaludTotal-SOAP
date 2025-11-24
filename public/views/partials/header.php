@@ -9,10 +9,13 @@
     <title>Clínica SaludTotal - Sistema de Gestión SOAP</title>
 
     <?php
-    // Como en Laragon la URL es saludtotal-soap.test/public/...
-    // fijamos /public como base para todos los assets
     $baseUrl = '/public';
     ?>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="<?= $baseUrl ?>/assets/img/logo_saludtotal.png">
+    <link rel="shortcut icon" type="image/png" href="<?= $baseUrl ?>/assets/img/logo_saludtotal.png">
+    <link rel="apple-touch-icon" href="<?= $baseUrl ?>/assets/img/logo_saludtotal.png">
 
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -20,12 +23,11 @@
         crossorigin="anonymous" referrerpolicy="no-referrer">
 
     <!-- Estilos personalizados -->
-    <link rel="stylesheet" href="<?= $baseUrl ?>../assets/css/style.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/assets/css/style.css">
 </head>
 
 <body>
     <div class="app-container">
         <?php require __DIR__ . '/navbar.php'; ?>
 
-        <!-- Contenedor de notificaciones (se inyecta desde JS) -->
         <div id="notification-container" class="notification-container"></div>

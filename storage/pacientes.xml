@@ -1,3 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pacientes>
-<paciente><cedula>1029929292</cedula><nombres>Santiago</nombres><apellidos>Rueda Quintero</apellidos><telefono>3125108134</telefono><fecha_nacimiento>2025-11-11</fecha_nacimiento></paciente><paciente><cedula>12312312312</cedula><nombres>yutitzi</nombres><apellidos>sanchez caile</apellidos><telefono>3125108134</telefono><fecha_nacimiento>2025-11-11</fecha_nacimiento></paciente><paciente><cedula>2123123123123</cedula><nombres>Santiago</nombres><apellidos>Rueda Quintero</apellidos><telefono>3125108134</telefono><fecha_nacimiento>2025-11-12</fecha_nacimiento></paciente></pacientes>
+    <paciente>
+        <cedula>1029929292</cedula>
+        <nombres>Santiago</nombres>
+        <apellidos>Rueda Quintero</apellidos>
+        <telefono>3125108134</telefono>
+        <fecha_nacimiento>2025-11-11</fecha_nacimiento>
+    </paciente>
+    <paciente>
+        <cedula>12312312312</cedula>
+        <nombres>yutitzi</nombres>
+        <apellidos>sanchez caile</apellidos>
+        <telefono>3125108134</telefono>
+        <fecha_nacimiento>2025-11-11</fecha_nacimiento>
+    </paciente>
+    
+    <paciente>
+        <cedula>212312312</cedula>
+        <nombres>Erick</nombres>
+        <apellidos>Carvajal</apellidos>
+        <telefono>3125108134</telefono>
+        <fecha_nacimiento>2025-07-02</fecha_nacimiento>
+    </paciente>
+    <paciente>
+        <cedula>2213123123</cedula>
+        <nombres>Juan</nombres>
+        <apellidos>Alcachofa</apellidos>
+        <telefono>+573176777925</telefono>
+        <fecha_nacimiento>2025-11-10</fecha_nacimiento>
+    </paciente>
+    <paciente>
+        <cedula>12343245</cedula>
+        <nombres>RealPeople</nombres>
+        <apellidos>sad</apellidos>
+        <telefono>3125108134</telefono>
+        <fecha_nacimiento>2025-11-12</fecha_nacimiento>
+    </paciente>
+    <paciente>
+        <cedula>123456789</cedula>
+        <nombres>Macarena</nombres>
+        <apellidos>Soy un perro</apellidos>
+        <telefono>+573214613561</telefono>
+        <fecha_nacimiento>2025-11-08</fecha_nacimiento>
+    </paciente>
+    <paciente>
+        <cedula>1029921232</cedula>
+        <nombres>Milan</nombres>
+        <apellidos>Soy un gato</apellidos>
+        <telefono>+573176777925</telefono>
+        <fecha_nacimiento>2025-11-07</fecha_nacimiento>
+    </paciente>
+    <paciente>
+        <cedula>102978992</cedula>
+        <nombres>Mia</nombres>
+        <apellidos>Soy negra</apellidos>
+        <telefono>+573122133516</telefono>
+        <fecha_nacimiento>2025-11-09</fecha_nacimiento>
+    </paciente>
+    <paciente>
+        <cedula>2213123231231</cedula>
+        <nombres>Dora</nombres>
+        <apellidos>Mercedes</apellidos>
+        <telefono>3125108134</telefono>
+        <fecha_nacimiento>2025-11-18</fecha_nacimiento>
+    </paciente>
+    <paciente>
+        <cedula>1111111112</cedula>
+        <nombres>Keylyn</nombres>
+        <apellidos>Rueda</apellidos>
+        <telefono>+573214613561</telefono>
+        <fecha_nacimiento>2025-11-22</fecha_nacimiento>
+    </paciente>
+<paciente><cedula>48484845454</cedula><nombres>Erick</nombres><apellidos>Carvajal</apellidos><telefono>3125108134</telefono><fecha_nacimiento>2025-11-20</fecha_nacimiento></paciente></pacientes>

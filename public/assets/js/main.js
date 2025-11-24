@@ -23,8 +23,8 @@ class DialogBox {
             type = 'warning',
             confirmText = 'Confirmar',
             cancelText = 'Cancelar',
-            onConfirm = () => {},
-            onCancel = () => {}
+            onConfirm = () => { },
+            onCancel = () => { }
         } = options;
 
         // Remover diálogo anterior si existe
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Validación de formularios
     const forms = document.querySelectorAll('form');
     forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', function (e) {
             const requiredInputs = form.querySelectorAll('[required]');
             let isValid = true;
             const errors = [];
@@ -273,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     isValid = false;
                     input.classList.add('error');
                     input.style.animation = 'shake 0.3s';
-                    
+
                     const label = form.querySelector(`label[for="${input.id}"]`);
                     if (label) {
                         errors.push(label.textContent.replace('*', '').trim());
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Limpiar estilos de error al escribir
     const inputs = document.querySelectorAll('input, select, textarea');
     inputs.forEach(input => {
-        input.addEventListener('input', function() {
+        input.addEventListener('input', function () {
             this.classList.remove('error');
         });
     });
@@ -311,14 +311,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // Formateo automático de teléfono colombiano
     const phoneInputs = document.querySelectorAll('input[type="tel"]');
     phoneInputs.forEach(input => {
-        input.addEventListener('input', function(e) {
+        input.addEventListener('input', function (e) {
             let value = e.target.value.replace(/\D/g, '');
-            
+
             // Formato: +57 ### ### ####
             if (value.startsWith('57')) {
                 value = value.substring(2);
             }
-            
+
             if (value.length > 0) {
                 if (value.length <= 3) {
                     value = '+57 ' + value;
@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     value = '+57 ' + value.slice(0, 3) + ' ' + value.slice(3, 6) + ' ' + value.slice(6, 10);
                 }
             }
-            
+
             e.target.value = value;
         });
     });
@@ -336,14 +336,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // Animación de carga para botones de envío
     const submitButtons = document.querySelectorAll('button[type="submit"]');
     submitButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             const form = this.closest('form');
             if (form && form.checkValidity()) {
                 this.disabled = true;
                 const originalContent = this.innerHTML;
                 this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Procesando...</span>';
                 this.style.opacity = '0.7';
-                
+
                 // Restaurar después de 10 segundos si no se envió
                 setTimeout(() => {
                     if (this.disabled) {

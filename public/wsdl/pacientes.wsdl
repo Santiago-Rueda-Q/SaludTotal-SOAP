@@ -11,17 +11,18 @@
         <xsd:schema targetNamespace="http://saludtotal.com/pacientes">
             <xsd:complexType name="Patient">
                 <xsd:sequence>
-                    <xsd:element name="cedula" type="xsd:string"/>
-                    <xsd:element name="nombres" type="xsd:string"/>
-                    <xsd:element name="apellidos" type="xsd:string"/>
-                    <xsd:element name="telefono" type="xsd:string"/>
-                    <xsd:element name="fecha_nacimiento" type="xsd:string"/>
+                    <xsd:element name="cedula" type="xsd:string" />
+                    <xsd:element name="nombres" type="xsd:string" />
+                    <xsd:element name="apellidos" type="xsd:string" />
+                    <xsd:element name="telefono" type="xsd:string" />
+                    <xsd:element name="fecha_nacimiento" type="xsd:string" />
                 </xsd:sequence>
             </xsd:complexType>
 
             <xsd:complexType name="PatientList">
                 <xsd:sequence>
-                    <xsd:element name="paciente" type="tns:Patient" minOccurs="0" maxOccurs="unbounded"/>
+                    <xsd:element name="paciente" type="tns:Patient" minOccurs="0"
+                        maxOccurs="unbounded" />
                 </xsd:sequence>
             </xsd:complexType>
         </xsd:schema>
@@ -29,141 +30,141 @@
 
     <!-- Mensajes -->
     <message name="createPatientRequest">
-        <part name="cedula" type="xsd:string"/>
-        <part name="nombres" type="xsd:string"/>
-        <part name="apellidos" type="xsd:string"/>
-        <part name="telefono" type="xsd:string"/>
-        <part name="fecha_nacimiento" type="xsd:string"/>
+        <part name="cedula" type="xsd:string" />
+        <part name="nombres" type="xsd:string" />
+        <part name="apellidos" type="xsd:string" />
+        <part name="telefono" type="xsd:string" />
+        <part name="fecha_nacimiento" type="xsd:string" />
     </message>
     <message name="createPatientResponse">
-        <part name="return" type="xsd:boolean"/>
+        <part name="return" type="xsd:boolean" />
     </message>
 
     <message name="getPatientByCedulaRequest">
-        <part name="cedula" type="xsd:string"/>
+        <part name="cedula" type="xsd:string" />
     </message>
     <message name="getPatientByCedulaResponse">
-        <part name="return" type="tns:Patient"/>
+        <part name="return" type="tns:Patient" />
     </message>
 
-    <message name="getAllPatientsRequest"/>
+    <message name="getAllPatientsRequest" />
     <message name="getAllPatientsResponse">
-        <part name="return" type="tns:PatientList"/>
+        <part name="return" type="tns:PatientList" />
     </message>
 
     <message name="updatePatientRequest">
-        <part name="cedula" type="xsd:string"/>
-        <part name="nombres" type="xsd:string"/>
-        <part name="apellidos" type="xsd:string"/>
-        <part name="telefono" type="xsd:string"/>
-        <part name="fecha_nacimiento" type="xsd:string"/>
+        <part name="cedula" type="xsd:string" />
+        <part name="nombres" type="xsd:string" />
+        <part name="apellidos" type="xsd:string" />
+        <part name="telefono" type="xsd:string" />
+        <part name="fecha_nacimiento" type="xsd:string" />
     </message>
     <message name="updatePatientResponse">
-        <part name="return" type="xsd:boolean"/>
+        <part name="return" type="xsd:boolean" />
     </message>
 
     <message name="deletePatientRequest">
-        <part name="cedula" type="xsd:string"/>
+        <part name="cedula" type="xsd:string" />
     </message>
     <message name="deletePatientResponse">
-        <part name="return" type="xsd:boolean"/>
+        <part name="return" type="xsd:boolean" />
     </message>
 
     <!-- PortType -->
     <portType name="PacientesPortType">
         <operation name="createPatient">
-            <input message="tns:createPatientRequest"/>
-            <output message="tns:createPatientResponse"/>
+            <input message="tns:createPatientRequest" />
+            <output message="tns:createPatientResponse" />
         </operation>
         <operation name="getPatientByCedula">
-            <input message="tns:getPatientByCedulaRequest"/>
-            <output message="tns:getPatientByCedulaResponse"/>
+            <input message="tns:getPatientByCedulaRequest" />
+            <output message="tns:getPatientByCedulaResponse" />
         </operation>
         <operation name="getAllPatients">
-            <input message="tns:getAllPatientsRequest"/>
-            <output message="tns:getAllPatientsResponse"/>
+            <input message="tns:getAllPatientsRequest" />
+            <output message="tns:getAllPatientsResponse" />
         </operation>
         <operation name="updatePatient">
-            <input message="tns:updatePatientRequest"/>
-            <output message="tns:updatePatientResponse"/>
+            <input message="tns:updatePatientRequest" />
+            <output message="tns:updatePatientResponse" />
         </operation>
         <operation name="deletePatient">
-            <input message="tns:deletePatientRequest"/>
-            <output message="tns:deletePatientResponse"/>
+            <input message="tns:deletePatientRequest" />
+            <output message="tns:deletePatientResponse" />
         </operation>
     </portType>
 
     <!-- Binding -->
     <binding name="PacientesBinding" type="tns:PacientesPortType">
-        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
 
         <operation name="createPatient">
-            <soap:operation soapAction="createPatient"/>
+            <soap:operation soapAction="createPatient" />
             <input>
                 <soap:body use="encoded"
-                           namespace="http://saludtotal.com/pacientes"
-                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                    namespace="http://saludtotal.com/pacientes"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </input>
             <output>
                 <soap:body use="encoded"
-                           namespace="http://saludtotal.com/pacientes"
-                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                    namespace="http://saludtotal.com/pacientes"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </output>
         </operation>
 
         <operation name="getPatientByCedula">
-            <soap:operation soapAction="getPatientByCedula"/>
+            <soap:operation soapAction="getPatientByCedula" />
             <input>
                 <soap:body use="encoded"
-                           namespace="http://saludtotal.com/pacientes"
-                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                    namespace="http://saludtotal.com/pacientes"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </input>
             <output>
                 <soap:body use="encoded"
-                           namespace="http://saludtotal.com/pacientes"
-                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                    namespace="http://saludtotal.com/pacientes"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </output>
         </operation>
 
         <operation name="getAllPatients">
-            <soap:operation soapAction="getAllPatients"/>
+            <soap:operation soapAction="getAllPatients" />
             <input>
                 <soap:body use="encoded"
-                           namespace="http://saludtotal.com/pacientes"
-                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                    namespace="http://saludtotal.com/pacientes"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </input>
             <output>
                 <soap:body use="encoded"
-                           namespace="http://saludtotal.com/pacientes"
-                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                    namespace="http://saludtotal.com/pacientes"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </output>
         </operation>
 
         <operation name="updatePatient">
-            <soap:operation soapAction="updatePatient"/>
+            <soap:operation soapAction="updatePatient" />
             <input>
                 <soap:body use="encoded"
-                           namespace="http://saludtotal.com/pacientes"
-                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                    namespace="http://saludtotal.com/pacientes"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </input>
             <output>
                 <soap:body use="encoded"
-                           namespace="http://saludtotal.com/pacientes"
-                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                    namespace="http://saludtotal.com/pacientes"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </output>
         </operation>
 
         <operation name="deletePatient">
-            <soap:operation soapAction="deletePatient"/>
+            <soap:operation soapAction="deletePatient" />
             <input>
                 <soap:body use="encoded"
-                           namespace="http://saludtotal.com/pacientes"
-                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                    namespace="http://saludtotal.com/pacientes"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </input>
             <output>
                 <soap:body use="encoded"
-                           namespace="http://saludtotal.com/pacientes"
-                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                    namespace="http://saludtotal.com/pacientes"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
             </output>
         </operation>
     </binding>
@@ -171,7 +172,7 @@
     <!-- Service -->
     <service name="PacientesService">
         <port name="PacientesPort" binding="tns:PacientesBinding">
-            <soap:address location="http://localhost/SaludTotal-SOAP/public/server/index.php"/>
+            <soap:address location="http://localhost/SaludTotal-SOAP/public/server/index.php" />
         </port>
     </service>
 

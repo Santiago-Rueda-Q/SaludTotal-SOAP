@@ -20,8 +20,8 @@ class DialogBox {
             type = 'warning',
             confirmText = 'Confirmar',
             cancelText = 'Cancelar',
-            onConfirm = () => {},
-            onCancel = () => {}
+            onConfirm = () => { },
+            onCancel = () => { }
         } = options;
 
         // Remover diálogo anterior si existe
@@ -184,7 +184,7 @@ class NotificationSystem {
 
     close(notification) {
         if (!notification.parentNode) return;
-        
+
         notification.classList.add('closing');
         setTimeout(() => {
             if (notification.parentNode) {
@@ -240,7 +240,7 @@ function confirmDeletePatient(cedula, nombre) {
         onConfirm: () => {
             // Mostrar notificación de procesamiento
             notify.info('Eliminando paciente...', 'Procesando');
-            
+
             // Redirigir a la acción de eliminar
             window.location.href = `index.php?action=eliminar_paciente&cedula=${encodeURIComponent(cedula)}`;
         },
